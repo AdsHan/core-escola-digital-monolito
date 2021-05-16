@@ -10,7 +10,6 @@ namespace MinhaEscolaDigital.Infrastructure.Data.Mapping
         public void Configure(EntityTypeBuilder<Aluno> builder)
         {
 
-            // Cliente
             builder.HasKey(c => c.Id);
 
             builder.Property(c => c.Nome)
@@ -27,7 +26,10 @@ namespace MinhaEscolaDigital.Infrastructure.Data.Mapping
             });
 
             // 1 : 1 => Aluno : Endereco
-            builder.HasOne(c => c.Endereco).WithOne();
+            builder.HasOne(a => a.Endereco).WithOne();
+
+            // 1 : 1 => Aluno : Observacao
+            builder.HasOne(a => a.Observacao).WithOne();
 
             builder.ToTable("Alunos");
         }

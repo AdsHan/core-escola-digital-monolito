@@ -15,6 +15,7 @@ namespace MinhaEscolaDigital.Domain.DomainObjects
 
         public static bool Validar(string cpf)
         {
+            // Outra forma de validar sem Regex
             cpf = cpf.ApenasNumeros(cpf);
 
             if (cpf.Length > 11)

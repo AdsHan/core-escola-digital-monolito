@@ -8,7 +8,7 @@ namespace MinhaEscolaDigital.Infrastructure.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<Endereco> builder)
         {
-            
+
             builder.HasKey(c => c.Id);
 
             builder.Property(c => c.Logradouro)
