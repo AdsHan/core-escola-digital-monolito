@@ -15,8 +15,11 @@ namespace MinhaEscolaDigital.Infrastructure.Persistence
         public DbSet<Escola> Escolas { get; set; }
         public DbSet<Escola> Turma { get; set; }
         public DbSet<Aluno> Alunos { get; set; }
+        public DbSet<Responsavel> Responsaveis { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<Observacao> Observacoes { get; set; }
+        public DbSet<AlunoResponsavel> AlunosResponsaveis { get; set; }
+        public DbSet<ResumoDia> ResumosDias { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

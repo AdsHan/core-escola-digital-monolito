@@ -10,47 +10,47 @@ namespace MinhaEscolaDigital.Infrastructure.Data.Mapping
         public void Configure(EntityTypeBuilder<Escola> builder)
         {
 
-            builder.HasKey(c => c.Id);
+            builder.HasKey(e => e.Id);
 
-            builder.Property(c => c.RazaoSocial)
+            builder.Property(e => e.RazaoSocial)
                 .IsRequired()
                 .HasColumnType("varchar(200)");
 
-            builder.Property(c => c.NomeFantasia)
+            builder.Property(e => e.NomeFantasia)
                 .IsRequired()
                 .HasColumnType("varchar(200)");
 
 
-            builder.OwnsOne(c => c.Cnpj, tf =>
+            builder.OwnsOne(e => e.Cnpj, tf =>
             {
-                tf.Property(c => c.Numero)
+                tf.Property(e => e.Numero)
                     .IsRequired()
                     .HasMaxLength(Cnpj.CnpjMaxLength)
                     .HasColumnName("Cpnj")
                     .HasColumnType($"varchar({Cnpj.CnpjMaxLength})");
             });
 
-            builder.OwnsOne(c => c.Email, tf =>
+            builder.OwnsOne(e => e.Email, tf =>
             {
-                tf.Property(c => c.Endereco)
+                tf.Property(e => e.Endereco)
                     .IsRequired()
                     .HasMaxLength(Email.EnderecoMaxLength)
                     .HasColumnName("Email")
                     .HasColumnType($"varchar({Email.EnderecoMaxLength})");
             });
 
-            builder.OwnsOne(c => c.Telefone, tf =>
+            builder.OwnsOne(e => e.Telefone, tf =>
             {
-                tf.Property(c => c.Numero)
+                tf.Property(e => e.Numero)
                     .IsRequired()
                     .HasMaxLength(Telefone.TelefoneMaxLength)
                     .HasColumnName("Telefone")
                     .HasColumnType($"varchar({Telefone.TelefoneMaxLength})");
             });
 
-            builder.OwnsOne(c => c.Celular, tf =>
+            builder.OwnsOne(e => e.Celular, tf =>
             {
-                tf.Property(c => c.Numero)
+                tf.Property(e => e.Numero)
                     .IsRequired()
                     .HasMaxLength(Telefone.TelefoneMaxLength)
                     .HasColumnName("Celular")

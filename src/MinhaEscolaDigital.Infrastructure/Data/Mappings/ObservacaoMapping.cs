@@ -9,9 +9,9 @@ namespace MinhaEscolaDigital.Infrastructure.Data.Mapping
         public void Configure(EntityTypeBuilder<Observacao> builder)
         {
 
-            builder.HasKey(c => c.Id);
+            builder.HasKey(o => o.Id);
 
-            builder.Property(c => c.Texto)
+            builder.Property(o => o.Texto)
                 .IsRequired()
                 .HasColumnType("varchar(8000)");
 

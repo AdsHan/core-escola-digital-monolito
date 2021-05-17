@@ -9,9 +9,9 @@ namespace MinhaEscolaDigital.Infrastructure.Data.Mapping
         public void Configure(EntityTypeBuilder<Turma> builder)
         {
 
-            builder.HasKey(c => c.Id);
+            builder.HasKey(t => t.Id);
 
-            builder.Property(c => c.Nome)
+            builder.Property(t => t.Nome)
                 .IsRequired()
                 .HasColumnType("varchar(200)");
 
@@ -21,6 +21,12 @@ namespace MinhaEscolaDigital.Infrastructure.Data.Mapping
             // N : 1 => Turma : Escola
             builder.HasOne(t => t.Escola)
                 .WithMany(e => e.Turmas)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // 1 : N  => Turma : Aluno
+            builder.HasMany(t => t.Alunos)
+                .WithOne(a => a.Turma)
+                .HasForeignKey(a => a.TurmaId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.ToTable("Turmas");

@@ -10,7 +10,7 @@ using MinhaEscolaDigital.Infrastructure.Persistence;
 namespace MinhaEscolaDigital.Infrastructure.Migrations
 {
     [DbContext(typeof(MinhaEscolaDigitalDbContext))]
-    [Migration("20210516231517_Criacao-Projeto")]
+    [Migration("20210517210228_Criacao-Projeto")]
     partial class CriacaoProjeto
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,6 +46,9 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("TurmaId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EnderecoId")
@@ -54,7 +57,24 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     b.HasIndex("ObservacaoId")
                         .IsUnique();
 
+                    b.HasIndex("TurmaId");
+
                     b.ToTable("Alunos");
+                });
+
+            modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.AlunoResponsavel", b =>
+                {
+                    b.Property<Guid>("AlunoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ResponsavelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AlunoId", "ResponsavelId");
+
+                    b.HasIndex("ResponsavelId");
+
+                    b.ToTable("AlunosResponsaveis");
                 });
 
             modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.Endereco", b =>
@@ -158,6 +178,65 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     b.ToTable("Observacoes");
                 });
 
+            modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.Responsavel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DataInclusao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataNascimento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<Guid>("ObservacaoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ObservacaoId")
+                        .IsUnique();
+
+                    b.ToTable("Responsaveis");
+                });
+
+            modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.ResumoDia", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AlunoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DataInclusao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataResumo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Texto")
+                        .IsRequired()
+                        .HasColumnType("varchar(8000)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlunoId");
+
+                    b.ToTable("ResumosDias");
+                });
+
             modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.Turma", b =>
                 {
                     b.Property<Guid>("Id")
@@ -204,6 +283,12 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MinhaEscolaDigital.Domain.Entities.Turma", "Turma")
+                        .WithMany("Alunos")
+                        .HasForeignKey("TurmaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.OwnsOne("MinhaEscolaDigital.Domain.DomainObjects.Cpf", "Cpf", b1 =>
                         {
                             b1.Property<Guid>("AlunoId")
@@ -223,11 +308,52 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                                 .HasForeignKey("AlunoId");
                         });
 
+                    b.OwnsOne("MinhaEscolaDigital.Domain.DomainObjects.Rg", "Rg", b1 =>
+                        {
+                            b1.Property<Guid>("AlunoId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Numero")
+                                .HasMaxLength(14)
+                                .HasColumnType("varchar(14)")
+                                .HasColumnName("Rg");
+
+                            b1.HasKey("AlunoId");
+
+                            b1.ToTable("Alunos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AlunoId");
+                        });
+
                     b.Navigation("Cpf");
 
                     b.Navigation("Endereco");
 
                     b.Navigation("Observacao");
+
+                    b.Navigation("Rg");
+
+                    b.Navigation("Turma");
+                });
+
+            modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.AlunoResponsavel", b =>
+                {
+                    b.HasOne("MinhaEscolaDigital.Domain.Entities.Aluno", "Aluno")
+                        .WithMany("AlunosResponsaveis")
+                        .HasForeignKey("AlunoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MinhaEscolaDigital.Domain.Entities.Responsavel", "Responsavel")
+                        .WithMany("AlunosResponsaveis")
+                        .HasForeignKey("ResponsavelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Aluno");
+
+                    b.Navigation("Responsavel");
                 });
 
             modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.Escola", b =>
@@ -333,6 +459,132 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     b.Navigation("Telefone");
                 });
 
+            modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.Responsavel", b =>
+                {
+                    b.HasOne("MinhaEscolaDigital.Domain.Entities.Observacao", "Observacao")
+                        .WithOne()
+                        .HasForeignKey("MinhaEscolaDigital.Domain.Entities.Responsavel", "ObservacaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("MinhaEscolaDigital.Domain.DomainObjects.Cpf", "Cpf", b1 =>
+                        {
+                            b1.Property<Guid>("ResponsavelId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Numero")
+                                .IsRequired()
+                                .HasMaxLength(11)
+                                .HasColumnType("varchar(11)")
+                                .HasColumnName("Cpf");
+
+                            b1.HasKey("ResponsavelId");
+
+                            b1.ToTable("Responsaveis");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ResponsavelId");
+                        });
+
+                    b.OwnsOne("MinhaEscolaDigital.Domain.DomainObjects.Email", "Email", b1 =>
+                        {
+                            b1.Property<Guid>("ResponsavelId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Endereco")
+                                .IsRequired()
+                                .HasMaxLength(254)
+                                .HasColumnType("varchar(254)")
+                                .HasColumnName("Email");
+
+                            b1.HasKey("ResponsavelId");
+
+                            b1.ToTable("Responsaveis");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ResponsavelId");
+                        });
+
+                    b.OwnsOne("MinhaEscolaDigital.Domain.DomainObjects.Rg", "Rg", b1 =>
+                        {
+                            b1.Property<Guid>("ResponsavelId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Numero")
+                                .HasMaxLength(14)
+                                .HasColumnType("varchar(14)")
+                                .HasColumnName("Rg");
+
+                            b1.HasKey("ResponsavelId");
+
+                            b1.ToTable("Responsaveis");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ResponsavelId");
+                        });
+
+                    b.OwnsOne("MinhaEscolaDigital.Domain.DomainObjects.Telefone", "Celular", b1 =>
+                        {
+                            b1.Property<Guid>("ResponsavelId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Numero")
+                                .IsRequired()
+                                .HasMaxLength(13)
+                                .HasColumnType("varchar(13)")
+                                .HasColumnName("Celular");
+
+                            b1.HasKey("ResponsavelId");
+
+                            b1.ToTable("Responsaveis");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ResponsavelId");
+                        });
+
+                    b.OwnsOne("MinhaEscolaDigital.Domain.DomainObjects.Telefone", "Telefone", b1 =>
+                        {
+                            b1.Property<Guid>("ResponsavelId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Numero")
+                                .IsRequired()
+                                .HasMaxLength(13)
+                                .HasColumnType("varchar(13)")
+                                .HasColumnName("Telefone");
+
+                            b1.HasKey("ResponsavelId");
+
+                            b1.ToTable("Responsaveis");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ResponsavelId");
+                        });
+
+                    b.Navigation("Celular");
+
+                    b.Navigation("Cpf");
+
+                    b.Navigation("Email");
+
+                    b.Navigation("Observacao");
+
+                    b.Navigation("Rg");
+
+                    b.Navigation("Telefone");
+                });
+
+            modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.ResumoDia", b =>
+                {
+                    b.HasOne("MinhaEscolaDigital.Domain.Entities.Aluno", "Aluno")
+                        .WithMany("Resumos")
+                        .HasForeignKey("AlunoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Aluno");
+                });
+
             modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.Turma", b =>
                 {
                     b.HasOne("MinhaEscolaDigital.Domain.Entities.Escola", "Escola")
@@ -352,9 +604,26 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     b.Navigation("Observacao");
                 });
 
+            modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.Aluno", b =>
+                {
+                    b.Navigation("AlunosResponsaveis");
+
+                    b.Navigation("Resumos");
+                });
+
             modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.Escola", b =>
                 {
                     b.Navigation("Turmas");
+                });
+
+            modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.Responsavel", b =>
+                {
+                    b.Navigation("AlunosResponsaveis");
+                });
+
+            modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.Turma", b =>
+                {
+                    b.Navigation("Alunos");
                 });
 #pragma warning restore 612, 618
         }
