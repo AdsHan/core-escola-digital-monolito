@@ -1,4 +1,5 @@
 ﻿using MinhaEscolaDigital.Domain.DomainObjects;
+using MinhaEscolaDigital.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 
@@ -21,6 +22,8 @@ namespace MinhaEscolaDigital.Domain.Entities
             Telefone = new Telefone(telefone);
             Celular = new Telefone(celular);
             Observacao = new Observacao(observacao);
+
+            AlunosResponsaveis = new List<AlunoResponsavel>();
         }
 
         public string Nome { get; private set; }
@@ -30,12 +33,13 @@ namespace MinhaEscolaDigital.Domain.Entities
         public Email Email { get; private set; }
         public Telefone Telefone { get; private set; }
         public Telefone Celular { get; private set; }
-       
+
         public Guid ObservacaoId { get; private set; }
+
+        public List<AlunoResponsavel> AlunosResponsaveis { get; set; }
 
         // EF Relação
         public Observacao Observacao { get; private set; }
-        public List<AlunoResponsavel> AlunosResponsaveis { get; set; }
 
     }
 }

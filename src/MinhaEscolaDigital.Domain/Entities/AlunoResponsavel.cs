@@ -1,5 +1,4 @@
-﻿using MinhaEscolaDigital.Domain.DomainObjects;
-using System;
+﻿using System;
 
 namespace MinhaEscolaDigital.Domain.Entities
 {
@@ -7,9 +6,9 @@ namespace MinhaEscolaDigital.Domain.Entities
     {
         public Guid AlunoId { get; private set; }
         public Guid ResponsavelId { get; private set; }
-       
+
         // EF Relação
         public Aluno Aluno { get; private set; }
-        public Responsavel Responsavel { get; private set; }                
+        public Responsavel Responsavel { get; private set; }
     }
 }

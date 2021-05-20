@@ -1,6 +1,6 @@
 ﻿using MinhaEscolaDigital.Domain.DomainObjects;
+using MinhaEscolaDigital.Domain.Repositories;
 using System;
-using System.Collections.Generic;
 
 namespace MinhaEscolaDigital.Domain.Entities
 {

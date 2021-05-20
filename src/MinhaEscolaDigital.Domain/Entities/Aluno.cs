@@ -1,4 +1,5 @@
 ﻿using MinhaEscolaDigital.Domain.DomainObjects;
+using MinhaEscolaDigital.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 
@@ -18,23 +19,27 @@ namespace MinhaEscolaDigital.Domain.Entities
             Rg = new Rg(rg);
             Cpf = new Cpf(cpf);
             Observacao = new Observacao(observacao);
+
+            AlunosResponsaveis = new List<AlunoResponsavel>();
+            Resumos = new List<ResumoDia>();
         }
 
         public string Nome { get; private set; }
         public DateTime DataNascimento { get; private set; }
         public Rg Rg { get; private set; }
-        public Cpf Cpf { get; private set; }        
+        public Cpf Cpf { get; private set; }
 
         public Guid TurmaId { get; private set; }
         public Guid EnderecoId { get; private set; }
         public Guid ObservacaoId { get; private set; }
 
+        public List<AlunoResponsavel> AlunosResponsaveis { get; set; }
+        public List<ResumoDia> Resumos { get; private set; }
+
         // EF Relação
         public Turma Turma { get; private set; }
         public Endereco Endereco { get; private set; }
         public Observacao Observacao { get; private set; }
-        public List<AlunoResponsavel> AlunosResponsaveis { get; set; }
-        public List<ResumoDia> Resumos { get; private set; }
 
         public void AtribuirEndereco(Endereco endereco)
         {

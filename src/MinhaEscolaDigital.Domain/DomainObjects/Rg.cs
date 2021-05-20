@@ -14,7 +14,7 @@ namespace MinhaEscolaDigital.Domain.DomainObjects
         }
 
         public static bool Validar(string rg)
-        {            
+        {
             var regexRg = new Regex(@"(^\d{1,2}).?(\d{3}).?(\d{3})-?(\d{1}|X|x$)");
             return regexRg.IsMatch(rg);
         }

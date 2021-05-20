@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MinhaEscolaDigital.Domain.DomainObjects;
 using MinhaEscolaDigital.Domain.Entities;
 
 namespace MinhaEscolaDigital.Infrastructure.Data.Mapping

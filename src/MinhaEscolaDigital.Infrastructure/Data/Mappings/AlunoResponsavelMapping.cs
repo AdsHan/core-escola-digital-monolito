@@ -9,7 +9,7 @@ namespace MinhaEscolaDigital.Infrastructure.Data.Mapping
         public void Configure(EntityTypeBuilder<AlunoResponsavel> builder)
         {
 
-            builder.HasKey(a => new { a.AlunoId, a.ResponsavelId});
+            builder.HasKey(a => new { a.AlunoId, a.ResponsavelId });
 
             // N : N => Aluno : Responsavel
             builder

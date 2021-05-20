@@ -1,4 +1,5 @@
 ﻿using MinhaEscolaDigital.Domain.DomainObjects;
+using MinhaEscolaDigital.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 
@@ -17,7 +18,7 @@ namespace MinhaEscolaDigital.Domain.Entities
             Nome = nome;
             Observacao = new Observacao(observacao);
         }
-        
+
         public string Nome { get; private set; }
         public List<Aluno> Alunos { get; private set; }
 
