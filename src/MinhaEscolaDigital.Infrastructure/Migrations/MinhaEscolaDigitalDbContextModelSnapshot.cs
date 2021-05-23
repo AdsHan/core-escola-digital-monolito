@@ -19,6 +19,21 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("AlunoResponsavel", b =>
+                {
+                    b.Property<Guid>("AlunosId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ResponsaveisId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AlunosId", "ResponsaveisId");
+
+                    b.HasIndex("ResponsaveisId");
+
+                    b.ToTable("AlunoResponsavel");
+                });
+
             modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.Aluno", b =>
                 {
                     b.Property<Guid>("Id")
@@ -265,6 +280,21 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Turmas");
+                });
+
+            modelBuilder.Entity("AlunoResponsavel", b =>
+                {
+                    b.HasOne("MinhaEscolaDigital.Domain.Entities.Aluno", null)
+                        .WithMany()
+                        .HasForeignKey("AlunosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MinhaEscolaDigital.Domain.Entities.Responsavel", null)
+                        .WithMany()
+                        .HasForeignKey("ResponsaveisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.Aluno", b =>

@@ -13,8 +13,15 @@ namespace MinhaEscolaDigital.Domain.DomainObjects
         {
             Id = Guid.NewGuid();
             DataInclusao = DateTime.Now;
-            Status = EntityStatusEnum.Created;
+            Status = EntityStatusEnum.Ativa;
         }
 
+        public void Excluir()
+        {
+            if (Status == EntityStatusEnum.Ativa)
+            {
+                Status = EntityStatusEnum.Inativa;
+            }
+        }
     }
 }

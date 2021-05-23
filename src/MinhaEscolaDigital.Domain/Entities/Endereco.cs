@@ -4,6 +4,10 @@ namespace MinhaEscolaDigital.Domain.Entities
 {
     public class Endereco : BaseEntity
     {
+        public Endereco()
+        {
+        }
+
         public Endereco(string logradouro, string numero, string complemento, string bairro, string cep, string cidade, string estado)
         {
             Logradouro = logradouro;

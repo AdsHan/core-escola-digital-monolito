@@ -6,12 +6,8 @@ namespace MinhaEscolaDigital.Domain.Repositories
 {
     public interface IAlunoRepository : IRepository<Aluno>
     {
-        Task<Aluno> ObterPorCpf(string cpf);
-        Task<Aluno> ObterPorRG(string cpf);
-
-        // Aluno
-        void AdicionarEndereco(Endereco endereco);
-        Task<Endereco> ObterEnderecoPorId(Guid id);
-
+        Task<Aluno> ObterPorCpfAsync(string cpf);
+        Task<Aluno> ObterPorRgAsync(string rg);
+        Task<Endereco> ObterEnderecoPorIdAsync(Guid id);
     }
 }

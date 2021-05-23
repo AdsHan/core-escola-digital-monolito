@@ -23,7 +23,7 @@ namespace MinhaEscolaDigital.Domain.Entities
             Celular = new Telefone(celular);
             Observacao = new Observacao(observacao);
 
-            AlunosResponsaveis = new List<AlunoResponsavel>();
+            Alunos = new List<Aluno>();
         }
 
         public string Nome { get; private set; }
@@ -33,13 +33,11 @@ namespace MinhaEscolaDigital.Domain.Entities
         public Email Email { get; private set; }
         public Telefone Telefone { get; private set; }
         public Telefone Celular { get; private set; }
-
         public Guid ObservacaoId { get; private set; }
-
-        public List<AlunoResponsavel> AlunosResponsaveis { get; set; }
+        public List<Aluno> Alunos { get; set; }
 
         // EF Relação
         public Observacao Observacao { get; private set; }
-
+        public List<AlunoResponsavel> AlunosResponsaveis { get; set; }
     }
 }

@@ -8,7 +8,8 @@ namespace MinhaEscolaDigital.Domain.Repositories
     {
         Task<T> ObterPorIdAsync(Guid id);
         Task<List<T>> ObterTodosAsync();
-        void AdicionarAsync(T obj);
         Task SalvarAsync();
+        void Alterar(T obj);
+        void Adicionar(T obj);
     }
 }

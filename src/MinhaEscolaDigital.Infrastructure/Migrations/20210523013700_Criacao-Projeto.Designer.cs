@@ -10,7 +10,7 @@ using MinhaEscolaDigital.Infrastructure.Persistence;
 namespace MinhaEscolaDigital.Infrastructure.Migrations
 {
     [DbContext(typeof(MinhaEscolaDigitalDbContext))]
-    [Migration("20210517210228_Criacao-Projeto")]
+    [Migration("20210523013700_Criacao-Projeto")]
     partial class CriacaoProjeto
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,21 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("AlunoResponsavel", b =>
+                {
+                    b.Property<Guid>("AlunosId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ResponsaveisId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AlunosId", "ResponsaveisId");
+
+                    b.HasIndex("ResponsaveisId");
+
+                    b.ToTable("AlunoResponsavel");
+                });
 
             modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.Aluno", b =>
                 {
@@ -267,6 +282,21 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Turmas");
+                });
+
+            modelBuilder.Entity("AlunoResponsavel", b =>
+                {
+                    b.HasOne("MinhaEscolaDigital.Domain.Entities.Aluno", null)
+                        .WithMany()
+                        .HasForeignKey("AlunosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MinhaEscolaDigital.Domain.Entities.Responsavel", null)
+                        .WithMany()
+                        .HasForeignKey("ResponsaveisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MinhaEscolaDigital.Domain.Entities.Aluno", b =>

@@ -50,11 +50,6 @@ namespace MinhaEscolaDigital.Infrastructure.Data.Mapping
                 .WithMany(t => t.Alunos)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // N : N => Aluno : Responsavel
-            builder.HasOne(a => a.Turma)
-                .WithMany(t => t.Alunos)
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.ToTable("Alunos");
         }
     }
