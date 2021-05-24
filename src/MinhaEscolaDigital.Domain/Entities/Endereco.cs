@@ -26,5 +26,17 @@ namespace MinhaEscolaDigital.Domain.Entities
         public string Cep { get; private set; }
         public string Cidade { get; private set; }
         public string Estado { get; private set; }
+
+        public void Atualizar(string logradouro, string numero, string complemento, string bairro, string cep, string cidade, string estado)
+        {
+            Logradouro = logradouro;
+            Numero = numero;
+            Complemento = complemento;
+            Bairro = bairro;
+            Cep = cep;
+            Cidade = cidade;
+            Estado = estado;
+        }
+
     }
 }

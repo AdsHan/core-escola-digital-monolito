@@ -20,5 +20,11 @@ namespace MinhaEscolaDigital.Domain.DomainObjects
             var regexTelefone = new Regex(@"(^[0-9]{2})?(\s|-)?(9?[0-9]{4})-?([0-9]{4}$)");
             return regexTelefone.IsMatch(email);
         }
+
+        public void Atualizar(string numero)
+        {
+            Numero = numero;
+        }
+
     }
 }

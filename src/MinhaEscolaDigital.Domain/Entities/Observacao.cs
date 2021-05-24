@@ -10,7 +10,10 @@ namespace MinhaEscolaDigital.Domain.Entities
         {
             Texto = texto;
         }
-
+        public void Atualizar(string texto)
+        {
+            Texto = texto;
+        }
     }
 
 }

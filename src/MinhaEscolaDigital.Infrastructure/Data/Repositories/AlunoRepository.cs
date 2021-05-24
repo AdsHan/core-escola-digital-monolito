@@ -48,6 +48,8 @@ namespace MinhaEscolaDigital.Infrastructure.Data.Repositories
 
         public void Alterar(Aluno aluno)
         {
+            // Reforço que ela foi alterada
+            _dbContext.Entry(aluno).State = EntityState.Modified;
             _dbContext.Update(aluno);
         }
 

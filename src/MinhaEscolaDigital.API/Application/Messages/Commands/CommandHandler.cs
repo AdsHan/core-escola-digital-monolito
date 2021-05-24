@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 
-namespace MinhaEscolaDigital.API.Application.Messages
+namespace MinhaEscolaDigital.API.Application.Messages.Commands
 {
     public abstract class CommandHandler
     {

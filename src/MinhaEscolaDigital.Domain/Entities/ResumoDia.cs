@@ -12,14 +12,16 @@ namespace MinhaEscolaDigital.Domain.Entities
         {
         }
 
-        public ResumoDia(DateTime data, string texto)
+        public ResumoDia(DateTime data, string texto, Guid alunoId)
         {
             DataResumo = data;
             Texto = texto;
+            AlunoId = alunoId;
         }
 
         public DateTime DataResumo { get; private set; }
         public string Texto { get; private set; }
+
         public Guid AlunoId { get; private set; }
 
         // EF Relação

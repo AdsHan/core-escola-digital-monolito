@@ -19,5 +19,10 @@ namespace MinhaEscolaDigital.Domain.DomainObjects
             var regexCpnj = new Regex(@"(^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$)");
             return regexCpnj.IsMatch(cnpj);
         }
+        public void Atualizar(string numero)
+        {
+            Numero = numero;
+        }
+
     }
 }

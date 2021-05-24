@@ -12,15 +12,16 @@ namespace MinhaEscolaDigital.Domain.Entities
         {
         }
 
-        public Aluno(string nome, DateTime dataNascimento, string rg, string cpf, string observacao, Guid turma, List<Responsavel> responsaveis)
+        public Aluno(string nome, DateTime dataNascimento, string rg, string cpf, string observacao, Guid turmaId)
         {
             Nome = nome;
             DataNascimento = dataNascimento;
+            TurmaId = turmaId;
             Rg = new Rg(rg);
             Cpf = new Cpf(cpf);
             Observacao = new Observacao(observacao);
-            TurmaId = turma;
-            Responsaveis = responsaveis;
+            Endereco = new Endereco();
+            AlunosResponsaveis = new List<AlunoResponsavel>();
             Resumos = new List<ResumoDia>();
         }
 
@@ -33,18 +34,37 @@ namespace MinhaEscolaDigital.Domain.Entities
         public Guid EnderecoId { get; private set; }
         public Guid ObservacaoId { get; private set; }
 
-        public List<ResumoDia> Resumos { get; private set; }
-        public List<Responsavel> Responsaveis { get; set; }
         public List<AlunoResponsavel> AlunosResponsaveis { get; set; }
+        public List<ResumoDia> Resumos { get; private set; }
 
         // EF Relação
-        public Turma Turma { get; private set; }
+        public Observacao Observacao { get; private set; }
         public Endereco Endereco { get; private set; }
-        public Observacao Observacao { get; private set; }        
+        public Turma Turma { get; private set; }
 
         public void AtribuirEndereco(Endereco endereco)
         {
             Endereco = endereco;
+        }
+
+        public void AtribuirResponsaveis(List<AlunoResponsavel> responsaveis)
+        {
+            AlunosResponsaveis = responsaveis;
+        }
+
+        public void AtribuirResumos(List<ResumoDia> resumos)
+        {
+            Resumos = resumos;
+        }
+
+        public void Atualizar(string nome, DateTime dataNascimento, string rg, string cpf, string observacao, Guid turma)
+        {
+            Nome = nome;
+            DataNascimento = dataNascimento;
+            Rg.Atualizar(rg);
+            Cpf.Atualizar(cpf);
+            Observacao.Atualizar(observacao);
+            TurmaId = turma;
         }
 
     }

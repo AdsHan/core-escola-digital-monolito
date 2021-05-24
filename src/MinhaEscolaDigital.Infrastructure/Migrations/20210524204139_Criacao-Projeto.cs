@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace MinhaEscolaDigital.Infrastructure.Migrations
 {
@@ -168,30 +168,6 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AlunoResponsavel",
-                columns: table => new
-                {
-                    AlunosId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ResponsaveisId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AlunoResponsavel", x => new { x.AlunosId, x.ResponsaveisId });
-                    table.ForeignKey(
-                        name: "FK_AlunoResponsavel_Alunos_AlunosId",
-                        column: x => x.AlunosId,
-                        principalTable: "Alunos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AlunoResponsavel_Responsaveis_ResponsaveisId",
-                        column: x => x.ResponsaveisId,
-                        principalTable: "Responsaveis",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AlunosResponsaveis",
                 columns: table => new
                 {
@@ -236,11 +212,6 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AlunoResponsavel_ResponsaveisId",
-                table: "AlunoResponsavel",
-                column: "ResponsaveisId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Alunos_EnderecoId",
@@ -300,9 +271,6 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AlunoResponsavel");
-
             migrationBuilder.DropTable(
                 name: "AlunosResponsaveis");
 

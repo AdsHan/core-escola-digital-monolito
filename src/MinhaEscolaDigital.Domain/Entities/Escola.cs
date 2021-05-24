@@ -21,6 +21,8 @@ namespace MinhaEscolaDigital.Domain.Entities
             Telefone = new Telefone(telefone);
             Celular = new Telefone(celular);
             Observacao = new Observacao(observacao);
+            Endereco = new Endereco();
+            Turmas = new List<Turma>();
         }
 
         public string RazaoSocial { get; private set; }
@@ -43,5 +45,9 @@ namespace MinhaEscolaDigital.Domain.Entities
             Endereco = endereco;
         }
 
+        public void AtribuirTurmas(List<Turma> turmas)
+        {
+            Turmas = turmas;
+        }
     }
 }

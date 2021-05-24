@@ -67,5 +67,10 @@ namespace MinhaEscolaDigital.Domain.DomainObjects
 
             return true;
         }
+        public void Atualizar(string numero)
+        {
+            Numero = numero;
+        }
+
     }
 }

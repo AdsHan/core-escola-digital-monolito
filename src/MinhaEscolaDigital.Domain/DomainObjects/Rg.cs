@@ -18,5 +18,11 @@ namespace MinhaEscolaDigital.Domain.DomainObjects
             var regexRg = new Regex(@"(^\d{1,2}).?(\d{3}).?(\d{3})-?(\d{1}|X|x$)");
             return regexRg.IsMatch(rg);
         }
+
+        public void Atualizar(string numero)
+        {
+            Numero = numero;
+        }
+
     }
 }
