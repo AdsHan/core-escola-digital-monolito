@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 
 namespace MinhaEscolaDigital.API.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Produces("application/json")]
+    [Route("api/{version:apiVersion}/[controller]")]
     [ApiController]
     public class AlunoController : BaseController
     {
@@ -20,11 +22,14 @@ namespace MinhaEscolaDigital.API.Controllers
             _mediator = mediator;
         }
 
-        // GET: api/aluno
+        // GET: api/1.0/aluno
         /// <summary>
-        /// Obtêm os aluno
+        /// Obtêm os alunos
         /// </summary>
-        /// <returns>Coleção de objetos aluno</returns>                
+        /// <returns>Coleção de objetos da classe Aluno</returns>                
+        /// <response code="200">Lista dos alunos</response>
+        /// <response code="404">Se não retornou nenhum aluno</response>         
+        /// <response code="400">Falha na requisição</response>         
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

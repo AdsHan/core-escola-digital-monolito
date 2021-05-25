@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MinhaEscolaDigital.API</name>
+    </assembly>
+    <members>
+        <member name="M:MinhaEscolaDigital.API.Controllers.AlunoController.Get">
+            <summary>
+            Obtêm os alunos
+            </summary>
+            <returns>Coleção de objetos da classe Aluno</returns>                
+            <response code="200">Lista dos alunos</response>
+            <response code="404">Se não retornou nenhum aluno</response>         
+            <response code="400">Falha na requisição</response>         
+        </member>
+    </members>
+</doc>
