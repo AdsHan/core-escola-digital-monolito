@@ -9,5 +9,6 @@ namespace MinhaEscolaDigital.Domain.Repositories
         Task<Aluno> ObterPorCpfAsync(string cpf);
         Task<Aluno> ObterPorRgAsync(string rg);
         Task<Endereco> ObterEnderecoPorIdAsync(Guid id);
+        Task<Responsavel> ObterResponsavelPorIdAsync(Guid id);
     }
 }

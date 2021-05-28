@@ -1,19 +1,20 @@
 ﻿using FluentValidation.Results;
+using MinhaEscolaDigital.API.Application.ApplicationObjects;
 
 namespace MinhaEscolaDigital.API.Application.Messages.Commands
 {
     public abstract class CommandHandler
     {
-        protected ValidationResult ValidationResult;
+        protected BaseResult BaseResult;
 
         protected CommandHandler()
         {
-            ValidationResult = new ValidationResult();
+            BaseResult = new BaseResult();
         }
 
         protected void AdicionarErro(string mensagem)
         {
-            ValidationResult.Errors.Add(new ValidationFailure(string.Empty, mensagem));
+            BaseResult.ValidationResult.Errors.Add(new ValidationFailure(string.Empty, mensagem));
         }
 
     }

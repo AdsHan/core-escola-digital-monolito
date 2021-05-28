@@ -33,7 +33,7 @@ namespace MinhaEscolaDigital.Domain.Entities
         public Telefone Telefone { get; private set; }
         public Telefone Celular { get; private set; }
 
-        public Guid ObservacaoId { get; private set; }
+        public Guid? ObservacaoId { get; private set; }
 
         public List<AlunoResponsavel> AlunosResponsaveis { get; set; }
 
@@ -43,6 +43,18 @@ namespace MinhaEscolaDigital.Domain.Entities
         public void AtribuirAlunos(List<AlunoResponsavel> alunos)
         {
             AlunosResponsaveis = alunos;
+        }
+
+        public void Atualizar(string nome, DateTime dataNascimento, string rg, string cpf, string telefone, string celular, string email, string observacao)
+        {
+            Nome = nome;
+            DataNascimento = dataNascimento;
+            Rg.Atualizar(rg);
+            Cpf.Atualizar(cpf);
+            Telefone.Atualizar(telefone);
+            Celular.Atualizar(celular);
+            Email.Atualizar(email);
+            Observacao.Atualizar(observacao);
         }
     }
 }

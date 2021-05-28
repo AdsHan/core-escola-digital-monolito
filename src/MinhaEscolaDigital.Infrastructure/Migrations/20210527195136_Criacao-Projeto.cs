@@ -52,8 +52,8 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     Email = table.Column<string>(type: "varchar(254)", maxLength: 254, nullable: true),
                     Telefone = table.Column<string>(type: "varchar(13)", maxLength: 13, nullable: true),
                     Celular = table.Column<string>(type: "varchar(13)", maxLength: 13, nullable: true),
-                    ObservacaoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EnderecoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ObservacaoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    EnderecoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     DataInclusao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false)
                 },
@@ -65,13 +65,13 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                         column: x => x.EnderecoId,
                         principalTable: "Enderecos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Escolas_Observacoes_ObservacaoId",
                         column: x => x.ObservacaoId,
                         principalTable: "Observacoes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,12 +81,12 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nome = table.Column<string>(type: "varchar(200)", nullable: false),
                     DataNascimento = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Rg = table.Column<string>(type: "varchar(14)", maxLength: 14, nullable: true),
+                    Rg = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
                     Cpf = table.Column<string>(type: "varchar(11)", maxLength: 11, nullable: true),
                     Email = table.Column<string>(type: "varchar(254)", maxLength: 254, nullable: true),
                     Telefone = table.Column<string>(type: "varchar(13)", maxLength: 13, nullable: true),
                     Celular = table.Column<string>(type: "varchar(13)", maxLength: 13, nullable: true),
-                    ObservacaoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ObservacaoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     DataInclusao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false)
                 },
@@ -98,7 +98,7 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                         column: x => x.ObservacaoId,
                         principalTable: "Observacoes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -107,8 +107,8 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nome = table.Column<string>(type: "varchar(200)", nullable: false),
-                    EscolaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ObservacaoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EscolaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ObservacaoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     DataInclusao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false)
                 },
@@ -126,7 +126,7 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                         column: x => x.ObservacaoId,
                         principalTable: "Observacoes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -136,11 +136,11 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nome = table.Column<string>(type: "varchar(200)", nullable: false),
                     DataNascimento = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Rg = table.Column<string>(type: "varchar(14)", maxLength: 14, nullable: true),
+                    Rg = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
                     Cpf = table.Column<string>(type: "varchar(11)", maxLength: 11, nullable: true),
-                    TurmaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EnderecoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ObservacaoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TurmaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    EnderecoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ObservacaoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     DataInclusao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false)
                 },
@@ -152,13 +152,13 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                         column: x => x.EnderecoId,
                         principalTable: "Enderecos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Alunos_Observacoes_ObservacaoId",
                         column: x => x.ObservacaoId,
                         principalTable: "Observacoes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Alunos_Turmas_TurmaId",
                         column: x => x.TurmaId,
@@ -198,7 +198,7 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DataResumo = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Texto = table.Column<string>(type: "varchar(8000)", nullable: false),
-                    AlunoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AlunoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     DataInclusao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false)
                 },
@@ -217,13 +217,15 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                 name: "IX_Alunos_EnderecoId",
                 table: "Alunos",
                 column: "EnderecoId",
-                unique: true);
+                unique: true,
+                filter: "[EnderecoId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Alunos_ObservacaoId",
                 table: "Alunos",
                 column: "ObservacaoId",
-                unique: true);
+                unique: true,
+                filter: "[ObservacaoId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Alunos_TurmaId",
@@ -239,7 +241,8 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                 name: "IX_Escolas_EnderecoId",
                 table: "Escolas",
                 column: "EnderecoId",
-                unique: true);
+                unique: true,
+                filter: "[EnderecoId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Escolas_ObservacaoId",
@@ -250,7 +253,8 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                 name: "IX_Responsaveis_ObservacaoId",
                 table: "Responsaveis",
                 column: "ObservacaoId",
-                unique: true);
+                unique: true,
+                filter: "[ObservacaoId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ResumosDias_AlunoId",
@@ -266,7 +270,13 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                 name: "IX_Turmas_ObservacaoId",
                 table: "Turmas",
                 column: "ObservacaoId",
-                unique: true);
+                unique: true,
+                filter: "[ObservacaoId] IS NOT NULL");
+
+            migrationBuilder.Sql("insert Escolas values('A9E5B222-313C-4AE2-8E04-809C3CFF4A80', 'Miranda Escola', 'Escola dos Pequeninos', '12345678000100', 'pequeninos@gmail.com', '51 99999-9999', '51 99999-9999', null, null, CURRENT_TIMESTAMP, 1)");
+            migrationBuilder.Sql("insert Turmas values('BCE4F473-3DFA-4FB9-8E1E-5997951F5485', 'Berçário II - 2021', null, null, CURRENT_TIMESTAMP, 1)");
+            //migrationBuilder.Sql("insert Turmas values(NEWID(), 'Berçário II - 2021', null, null, CURRENT_TIMESTAMP, 1)");
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -31,29 +31,31 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     b.Property<DateTime>("DataNascimento")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("EnderecoId")
+                    b.Property<Guid?>("EnderecoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
 
-                    b.Property<Guid>("ObservacaoId")
+                    b.Property<Guid?>("ObservacaoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("TurmaId")
+                    b.Property<Guid?>("TurmaId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EnderecoId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[EnderecoId] IS NOT NULL");
 
                     b.HasIndex("ObservacaoId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ObservacaoId] IS NOT NULL");
 
                     b.HasIndex("TurmaId");
 
@@ -128,14 +130,14 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     b.Property<DateTime>("DataInclusao")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("EnderecoId")
+                    b.Property<Guid?>("EnderecoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("NomeFantasia")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
 
-                    b.Property<Guid>("ObservacaoId")
+                    b.Property<Guid?>("ObservacaoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("RazaoSocial")
@@ -148,7 +150,8 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EnderecoId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[EnderecoId] IS NOT NULL");
 
                     b.HasIndex("ObservacaoId");
 
@@ -192,7 +195,7 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(200)");
 
-                    b.Property<Guid>("ObservacaoId")
+                    b.Property<Guid?>("ObservacaoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
@@ -201,7 +204,8 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ObservacaoId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ObservacaoId] IS NOT NULL");
 
                     b.ToTable("Responsaveis");
                 });
@@ -212,7 +216,7 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AlunoId")
+                    b.Property<Guid?>("AlunoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DataInclusao")
@@ -244,14 +248,14 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     b.Property<DateTime>("DataInclusao")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("EscolaId")
+                    b.Property<Guid?>("EscolaId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
 
-                    b.Property<Guid>("ObservacaoId")
+                    b.Property<Guid?>("ObservacaoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
@@ -262,7 +266,8 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     b.HasIndex("EscolaId");
 
                     b.HasIndex("ObservacaoId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ObservacaoId] IS NOT NULL");
 
                     b.ToTable("Turmas");
                 });
@@ -271,21 +276,16 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                 {
                     b.HasOne("MinhaEscolaDigital.Domain.Entities.Endereco", "Endereco")
                         .WithOne()
-                        .HasForeignKey("MinhaEscolaDigital.Domain.Entities.Aluno", "EnderecoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MinhaEscolaDigital.Domain.Entities.Aluno", "EnderecoId");
 
                     b.HasOne("MinhaEscolaDigital.Domain.Entities.Observacao", "Observacao")
                         .WithOne()
-                        .HasForeignKey("MinhaEscolaDigital.Domain.Entities.Aluno", "ObservacaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MinhaEscolaDigital.Domain.Entities.Aluno", "ObservacaoId");
 
                     b.HasOne("MinhaEscolaDigital.Domain.Entities.Turma", "Turma")
                         .WithMany("Alunos")
                         .HasForeignKey("TurmaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.OwnsOne("MinhaEscolaDigital.Domain.DomainObjects.Cpf", "Cpf", b1 =>
                         {
@@ -312,8 +312,8 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Numero")
-                                .HasMaxLength(14)
-                                .HasColumnType("varchar(14)")
+                                .HasMaxLength(10)
+                                .HasColumnType("varchar(10)")
                                 .HasColumnName("Rg");
 
                             b1.HasKey("AlunoId");
@@ -358,15 +358,11 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                 {
                     b.HasOne("MinhaEscolaDigital.Domain.Entities.Endereco", "Endereco")
                         .WithOne()
-                        .HasForeignKey("MinhaEscolaDigital.Domain.Entities.Escola", "EnderecoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MinhaEscolaDigital.Domain.Entities.Escola", "EnderecoId");
 
                     b.HasOne("MinhaEscolaDigital.Domain.Entities.Observacao", "Observacao")
                         .WithMany()
-                        .HasForeignKey("ObservacaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ObservacaoId");
 
                     b.OwnsOne("MinhaEscolaDigital.Domain.DomainObjects.Cnpj", "Cnpj", b1 =>
                         {
@@ -461,9 +457,7 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                 {
                     b.HasOne("MinhaEscolaDigital.Domain.Entities.Observacao", "Observacao")
                         .WithOne()
-                        .HasForeignKey("MinhaEscolaDigital.Domain.Entities.Responsavel", "ObservacaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MinhaEscolaDigital.Domain.Entities.Responsavel", "ObservacaoId");
 
                     b.OwnsOne("MinhaEscolaDigital.Domain.DomainObjects.Cpf", "Cpf", b1 =>
                         {
@@ -509,8 +503,8 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Numero")
-                                .HasMaxLength(14)
-                                .HasColumnType("varchar(14)")
+                                .HasMaxLength(10)
+                                .HasColumnType("varchar(10)")
                                 .HasColumnName("Rg");
 
                             b1.HasKey("ResponsavelId");
@@ -577,8 +571,7 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     b.HasOne("MinhaEscolaDigital.Domain.Entities.Aluno", "Aluno")
                         .WithMany("Resumos")
                         .HasForeignKey("AlunoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Aluno");
                 });
@@ -588,14 +581,11 @@ namespace MinhaEscolaDigital.Infrastructure.Migrations
                     b.HasOne("MinhaEscolaDigital.Domain.Entities.Escola", "Escola")
                         .WithMany("Turmas")
                         .HasForeignKey("EscolaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MinhaEscolaDigital.Domain.Entities.Observacao", "Observacao")
                         .WithOne()
-                        .HasForeignKey("MinhaEscolaDigital.Domain.Entities.Turma", "ObservacaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MinhaEscolaDigital.Domain.Entities.Turma", "ObservacaoId");
 
                     b.Navigation("Escola");
 

@@ -4,6 +4,7 @@ namespace MinhaEscolaDigital.API.Application.DTO
 {
     public class ResponsavelDTO
     {
+        public Guid id { get; set; }
         public string Nome { get; set; }
         public DateTime DataNascimento { get; set; }
         public string Rg { get; set; }

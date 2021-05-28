@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MinhaEscolaDigital.Domain.Entities;
+using MinhaEscolaDigital.Domain.Enums;
 using MinhaEscolaDigital.Domain.Repositories;
 using MinhaEscolaDigital.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MinhaEscolaDigital.Infrastructure.Data.Repositories
@@ -18,38 +20,62 @@ namespace MinhaEscolaDigital.Infrastructure.Data.Repositories
 
         public async Task<Endereco> ObterEnderecoPorIdAsync(Guid id)
         {
-            return await _dbContext.Enderecos.FirstOrDefaultAsync(e => e.Id == id);
+            return await _dbContext.Enderecos
+                .Where(a => a.Status == EntityStatusEnum.Ativa)
+                .FirstOrDefaultAsync(e => e.Id == id);
+        }
+
+        public async Task<Responsavel> ObterResponsavelPorIdAsync(Guid id)
+        {
+            return await _dbContext.Responsaveis
+                .Include(a => a.Observacao)
+                .Where(a => a.Status == EntityStatusEnum.Ativa)
+                .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<Aluno> ObterPorCpfAsync(string cpf)
         {
-            return await _dbContext.Alunos.AsNoTracking().FirstOrDefaultAsync(c => c.Cpf.Numero == cpf);
+            return await _dbContext.Alunos
+                .Where(a => a.Status == EntityStatusEnum.Ativa)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Cpf.Numero == cpf);
         }
 
         public async Task<Aluno> ObterPorIdAsync(Guid id)
         {
             return await _dbContext.Alunos
+                .Where(a => a.Status == EntityStatusEnum.Ativa)
+                .Include(x => x.AlunosResponsaveis).ThenInclude(i => i.Responsavel)
+                .Include(a => a.Observacao)
+                .Include(a => a.Endereco)
                 .Include(a => a.Resumos)
                 .Include(a => a.Turma)
-                .Include(a => a.Observacao)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<Aluno> ObterPorRgAsync(string rg)
         {
-            return await _dbContext.Alunos.AsNoTracking().FirstOrDefaultAsync(c => c.Rg.Numero == rg);
+            return await _dbContext.Alunos
+                .Where(a => a.Status == EntityStatusEnum.Ativa)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Rg.Numero == rg);
         }
 
         public async Task<List<Aluno>> ObterTodosAsync()
         {
-            return await _dbContext.Alunos.AsNoTracking().ToListAsync();
+            return await _dbContext.Alunos
+                .Where(a => a.Status == EntityStatusEnum.Ativa)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public void Alterar(Aluno aluno)
         {
-            // Reforço que ela foi alterada
+            // Reforço que as entidades foram alteradas
             _dbContext.Entry(aluno).State = EntityState.Modified;
+            _dbContext.Entry(aluno.Endereco).State = EntityState.Modified;
+            _dbContext.Entry(aluno.Observacao).State = EntityState.Modified;
             _dbContext.Update(aluno);
         }
 

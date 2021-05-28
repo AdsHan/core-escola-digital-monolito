@@ -17,14 +17,18 @@ namespace MinhaEscolaDigital.API.Application.Messages.Commands.AlunoCommand
 
         public override bool Validar()
         {
-            ValidationResult = new EnderecoValidation().Validate(this);
-            return ValidationResult.IsValid;
+            BaseResult.ValidationResult = new EnderecoValidation().Validate(this);
+            return BaseResult.ValidationResult.IsValid;
         }
 
         public class EnderecoValidation : AbstractValidator<AlterarEnderecoAlunoCommand>
         {
             public EnderecoValidation()
             {
+                RuleFor(c => c.AlunoId)
+                    .NotEmpty()
+                    .WithMessage("O código do endereço não foi informado");
+
                 RuleFor(c => c.Logradouro)
                     .NotEmpty()
                     .WithMessage("Informe o Logradouro");

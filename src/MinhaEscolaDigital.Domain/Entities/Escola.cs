@@ -33,8 +33,8 @@ namespace MinhaEscolaDigital.Domain.Entities
         public Telefone Celular { get; private set; }
         public List<Turma> Turmas { get; private set; }
 
-        public Guid ObservacaoId { get; private set; }
-        public Guid EnderecoId { get; private set; }
+        public Guid? ObservacaoId { get; private set; }
+        public Guid? EnderecoId { get; private set; }
 
         // EF Relação
         public Observacao Observacao { get; private set; }

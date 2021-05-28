@@ -1,7 +1,10 @@
-﻿namespace MinhaEscolaDigital.API.Application.DTO
+﻿using System;
+
+namespace MinhaEscolaDigital.API.Application.DTO
 {
     public class EnderecoDTO
     {
+        public Guid id { get; set; }
         public string Logradouro { get; set; }
         public string Numero { get; set; }
         public string Complemento { get; set; }

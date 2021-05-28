@@ -24,8 +24,8 @@ namespace MinhaEscolaDigital.Domain.Entities
         public string Nome { get; private set; }
         public List<Aluno> Alunos { get; private set; }
 
-        public Guid EscolaId { get; private set; }
-        public Guid ObservacaoId { get; private set; }
+        public Guid? EscolaId { get; private set; }
+        public Guid? ObservacaoId { get; private set; }
 
         // EF Relação        
         public Observacao Observacao { get; private set; }

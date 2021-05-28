@@ -8,20 +8,20 @@ namespace MinhaEscolaDigital.API.Application.Messages.Commands.AlunoCommand
 
     public class AlterarAlunoCommand : Command
     {
-        public Guid AlunoId { get; private set; }
-        public string Nome { get; private set; }
-        public DateTime DataNascimento { get; private set; }
-        public string Rg { get; private set; }
-        public string Cpf { get; private set; }
-        public string Observacao { get; private set; }
-        public Guid TurmaId { get; private set; }
+        public Guid AlunoId { get; set; }
+        public string Nome { get; set; }
+        public DateTime DataNascimento { get; set; }
+        public string Rg { get; set; }
+        public string Cpf { get; set; }
+        public string Observacao { get; set; }
+        public Guid TurmaId { get; set; }
         public List<ResponsavelDTO> Responsaveis { get; set; }
         public EnderecoDTO Endereco { get; set; }
 
         public override bool Validar()
         {
-            ValidationResult = new AlterarAlunoValidation().Validate(this);
-            return ValidationResult.IsValid;
+            BaseResult.ValidationResult = new AlterarAlunoValidation().Validate(this);
+            return BaseResult.ValidationResult.IsValid;
         }
 
         public class AlterarAlunoValidation : AbstractValidator<AlterarAlunoCommand>

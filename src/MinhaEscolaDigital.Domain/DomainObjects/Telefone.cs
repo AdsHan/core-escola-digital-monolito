@@ -14,11 +14,11 @@ namespace MinhaEscolaDigital.Domain.DomainObjects
             Numero = numero;
         }
 
-        public static bool Validar(string email)
+        public static bool Validar(string telefone)
         {
-            // Valida qualquer telefone ou celular, com ou sem DDD. O traço é opcional.
+            // Valida qualquer telefone ou celular, com ou sem DDD. O traço é opcional. Sem parênteses.
             var regexTelefone = new Regex(@"(^[0-9]{2})?(\s|-)?(9?[0-9]{4})-?([0-9]{4}$)");
-            return regexTelefone.IsMatch(email);
+            return regexTelefone.IsMatch(telefone);
         }
 
         public void Atualizar(string numero)

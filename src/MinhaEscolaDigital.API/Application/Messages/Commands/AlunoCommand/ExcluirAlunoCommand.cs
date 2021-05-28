@@ -6,11 +6,16 @@ namespace MinhaEscolaDigital.API.Application.Messages.Commands.AlunoCommand
 
     public class ExcluirAlunoCommand : Command
     {
-        public Guid AlunoId { get; private set; }
+        public ExcluirAlunoCommand(Guid alunoId)
+        {
+            AlunoId = alunoId;
+        }
+
+        public Guid AlunoId { get; set; }
         public override bool Validar()
         {
-            ValidationResult = new ExcluirAlunoValidation().Validate(this);
-            return ValidationResult.IsValid;
+            BaseResult.ValidationResult = new ExcluirAlunoValidation().Validate(this);
+            return BaseResult.ValidationResult.IsValid;
         }
 
         public class ExcluirAlunoValidation : AbstractValidator<ExcluirAlunoCommand>

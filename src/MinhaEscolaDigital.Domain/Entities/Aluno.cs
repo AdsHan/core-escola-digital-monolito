@@ -30,9 +30,9 @@ namespace MinhaEscolaDigital.Domain.Entities
         public Rg Rg { get; private set; }
         public Cpf Cpf { get; private set; }
 
-        public Guid TurmaId { get; private set; }
-        public Guid EnderecoId { get; private set; }
-        public Guid ObservacaoId { get; private set; }
+        public Guid? TurmaId { get; private set; }
+        public Guid? EnderecoId { get; private set; }
+        public Guid? ObservacaoId { get; private set; }
 
         public List<AlunoResponsavel> AlunosResponsaveis { get; set; }
         public List<ResumoDia> Resumos { get; private set; }

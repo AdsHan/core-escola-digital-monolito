@@ -11,7 +11,6 @@ namespace MinhaEscolaDigital.Domain.DomainObjects
 
         protected BaseEntity()
         {
-            Id = Guid.NewGuid();
             DataInclusao = DateTime.Now;
             Status = EntityStatusEnum.Ativa;
         }

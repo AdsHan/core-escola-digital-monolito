@@ -1,5 +1,5 @@
-﻿using FluentValidation.Results;
-using MediatR;
+﻿using MediatR;
+using MinhaEscolaDigital.API.Application.ApplicationObjects;
 using MinhaEscolaDigital.Domain.Entities;
 using MinhaEscolaDigital.Domain.Repositories;
 using System.Collections.Generic;
@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 namespace MinhaEscolaDigital.API.Application.Messages.Commands.AlunoCommand
 {
     public class AlunoCommandHandler : CommandHandler,
-        IRequestHandler<AdicionarAlunoCommand, ValidationResult>,
-        IRequestHandler<AlterarAlunoCommand, ValidationResult>,
-        IRequestHandler<ExcluirAlunoCommand, ValidationResult>,
-        IRequestHandler<AlterarEnderecoAlunoCommand, ValidationResult>
+        IRequestHandler<AdicionarAlunoCommand, BaseResult>,
+        IRequestHandler<AlterarAlunoCommand, BaseResult>,
+        IRequestHandler<ExcluirAlunoCommand, BaseResult>,
+        IRequestHandler<AlterarEnderecoAlunoCommand, BaseResult>
     {
         private readonly IAlunoRepository _alunoRepository;
 
@@ -22,16 +22,16 @@ namespace MinhaEscolaDigital.API.Application.Messages.Commands.AlunoCommand
             _alunoRepository = alunoRepository;
         }
 
-        public async Task<ValidationResult> Handle(AdicionarAlunoCommand command, CancellationToken cancellationToken)
+        public async Task<BaseResult> Handle(AdicionarAlunoCommand command, CancellationToken cancellationToken)
         {
-            if (!command.Validar()) return command.ValidationResult;
+            if (!command.Validar()) return command.BaseResult;
 
             var alunoExistente = await _alunoRepository.ObterPorCpfAsync(command.Cpf);
 
             if (alunoExistente != null)
             {
                 AdicionarErro("Este CPF já está em uso por outro aluno!");
-                return ValidationResult;
+                return BaseResult;
             }
 
             var aluno = new Aluno(command.Nome, command.DataNascimento, command.Rg, command.Cpf, command.Observacao, command.TurmaId);
@@ -54,17 +54,21 @@ namespace MinhaEscolaDigital.API.Application.Messages.Commands.AlunoCommand
 
             await _alunoRepository.SalvarAsync();
 
-            return ValidationResult;
+            BaseResult.id = aluno.Id;
+
+            return BaseResult;
         }
 
-        public async Task<ValidationResult> Handle(AlterarAlunoCommand command, CancellationToken cancellationToken)
+        public async Task<BaseResult> Handle(AlterarAlunoCommand command, CancellationToken cancellationToken)
         {
+            if (!command.Validar()) return command.BaseResult;
+
             var aluno = await _alunoRepository.ObterPorIdAsync(command.AlunoId);
 
-            if (aluno != null)
+            if (aluno == null)
             {
                 AdicionarErro("Não foi possível localizar o aluno!");
-                return ValidationResult;
+                return BaseResult;
             }
 
             // Atualiza o endereço
@@ -76,11 +80,13 @@ namespace MinhaEscolaDigital.API.Application.Messages.Commands.AlunoCommand
             List<AlunoResponsavel> ResponsaveisParAdcionar = new List<AlunoResponsavel>();
             List<AlunoResponsavel> novosAlunoResponsavels = new List<AlunoResponsavel>();
 
-            var responsaveis = command.Responsaveis.Select(r => new Responsavel(r.Nome, r.DataNascimento, r.Rg, r.Cpf, r.Telefone, r.Celular, r.Email, r.Observacao)).ToList();
-
-            foreach (var item in responsaveis)
+            foreach (var item in command.Responsaveis)
             {
-                novosAlunoResponsavels.Add(new AlunoResponsavel(aluno, item));
+                var responsavel = await _alunoRepository.ObterResponsavelPorIdAsync(item.id);
+
+                responsavel.Atualizar(item.Nome, item.DataNascimento, item.Rg, item.Cpf, item.Telefone, item.Celular, item.Email, item.Observacao);
+
+                novosAlunoResponsavels.Add(new AlunoResponsavel(aluno, responsavel));
             }
 
             // Se um responsavel está gravado mas não está na lista de nova (indica que foi retirado)            
@@ -112,41 +118,51 @@ namespace MinhaEscolaDigital.API.Application.Messages.Commands.AlunoCommand
 
             await _alunoRepository.SalvarAsync();
 
-            return ValidationResult;
+            return BaseResult;
         }
 
-        public async Task<ValidationResult> Handle(ExcluirAlunoCommand command, CancellationToken cancellationToken)
+        public async Task<BaseResult> Handle(ExcluirAlunoCommand command, CancellationToken cancellationToken)
         {
-            var project = await _alunoRepository.ObterPorIdAsync(command.AlunoId);
+            if (!command.Validar()) return command.BaseResult;
 
-            project.Excluir();
+            var aluno = await _alunoRepository.ObterPorIdAsync(command.AlunoId);
 
-            await _alunoRepository.SalvarAsync();
-
-            return ValidationResult;
-        }
-
-        public async Task<ValidationResult> Handle(AlterarEnderecoAlunoCommand command, CancellationToken cancellationToken)
-        {
-            if (!command.Validar()) return command.ValidationResult;
-
-            var alunoExistente = await _alunoRepository.ObterPorIdAsync(command.AlunoId);
-
-            if (alunoExistente == null)
+            if (aluno == null)
             {
                 AdicionarErro("Não foi possível localizar o aluno!");
-                return ValidationResult;
+                return BaseResult;
             }
 
-            var endereco = new Endereco(command.Logradouro, command.Numero, command.Complemento, command.Bairro, command.Cep, command.Cidade, command.Estado);
+            aluno.Excluir();
 
-            alunoExistente.AtribuirEndereco(endereco);
-
-            _alunoRepository.Alterar(alunoExistente);
+            _alunoRepository.Alterar(aluno);
 
             await _alunoRepository.SalvarAsync();
 
-            return ValidationResult;
+            return BaseResult;
+        }
+
+        public async Task<BaseResult> Handle(AlterarEnderecoAlunoCommand command, CancellationToken cancellationToken)
+        {
+            if (!command.Validar()) return command.BaseResult;
+
+            var aluno = await _alunoRepository.ObterPorIdAsync(command.AlunoId);
+
+            if (aluno == null)
+            {
+                AdicionarErro("Não foi possível localizar o aluno!");
+                return BaseResult;
+            }
+
+            // Atualiza o endereço
+            var endereco = aluno.Endereco;
+            endereco.Atualizar(command.Logradouro, command.Numero, command.Complemento, command.Bairro, command.Cep, command.Cidade, command.Estado);
+
+            _alunoRepository.Alterar(aluno);
+
+            await _alunoRepository.SalvarAsync();
+
+            return BaseResult;
         }
     }
 }

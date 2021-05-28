@@ -22,7 +22,7 @@ namespace MinhaEscolaDigital.Domain.Entities
         public DateTime DataResumo { get; private set; }
         public string Texto { get; private set; }
 
-        public Guid AlunoId { get; private set; }
+        public Guid? AlunoId { get; private set; }
 
         // EF Relação
         public Aluno Aluno { get; private set; }
