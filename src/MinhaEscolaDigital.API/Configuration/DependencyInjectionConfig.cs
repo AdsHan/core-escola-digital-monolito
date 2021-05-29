@@ -27,9 +27,6 @@ namespace MinhaEscolaDigital.API.Configuration
             // services.AddScoped<IRequestHandler<AdicionarAlunoCommand, ValidationResult>, AlunoCommandHandler>();
             // services.AddScoped<IRequestHandler<AlterarEnderecoAlunoCommand, ValidationResult>, AlunoCommandHandler>();
             services.AddMediatR(typeof(AdicionarAlunoCommand));
-
-
-
         }
     }
 }

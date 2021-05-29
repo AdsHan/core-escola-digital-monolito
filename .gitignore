@@ -27,6 +27,8 @@ bld/
 msbuild.log
 msbuild.err
 msbuild.wrn
+PublishProfiles/
+ServiceDependencies/
 
 # Visual Studio 2015
 .vs/

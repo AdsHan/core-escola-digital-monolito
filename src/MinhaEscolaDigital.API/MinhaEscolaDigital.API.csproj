@@ -5,9 +5,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\adsha\Desenvolvimento\Workspace\WebApi\MinhaEscolaDigitalMonolito\src\MinhaEscolaDigital.API\MinhaEscolaDigital.API.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\net5.0\MinhaEscolaDigital.API.xml</DocumentationFile>    
   </PropertyGroup>
   
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\net5.0\MinhaEscolaDigital.API.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="FluentValidation" Version="10.1.0" />
