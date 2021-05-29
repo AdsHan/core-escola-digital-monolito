@@ -15,7 +15,11 @@ namespace MinhaEscolaDigital.API.Configuration
         public static void AddDependencyConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
 
-            services.AddDbContext<MinhaEscolaDigitalDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            // Usando com SqlServer
+            // services.AddDbContext<MinhaEscolaDigitalDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            // Usando com banco de dados em memória
+            services.AddDbContext<MinhaEscolaDigitalDbContext>(options => options.UseInMemoryDatabase("MinhaEscolaDigitalMonolito"));
+
             services.AddScoped<IAlunoRepository, AlunoRepository>();
 
             services.AddScoped<IMediatorHandler, MediatorHandler>();
