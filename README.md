@@ -1,8 +1,8 @@
 # core-escola-digital-monolito
 
-Aplicação .Net Core 5.0 Web API desenvolvida na arquitetura monolítica com o objetivo didático de demonstrar a implementação de uma API utilizando-se de Clean Architecture, CQRS  com MediatR, Repository Pattern e Fluent Validation.
+Aplicação .Net Core 5.0 Web API desenvolvida com o objetivo didático de demonstrar Clean Architecture, CQRS com MediatR, Repository Pattern e Fluent Validation.
 
-Está API tem como cenário um aplicativo fictício chamado "Minha Escola Digital" onde este teria como funcionalidade principal o envio de resumos diários contendo o dia a dia do aluno. Foi implementado somente a controller do aluno.
+Cenário: Aplicativo que envia um resumo diário para os pais/guardiões do dia a dia do aluno.
 
 # Este projeto contém:
 
